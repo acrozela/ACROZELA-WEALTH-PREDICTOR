@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ACROZELA Wealth Predictor - A professional FINANCE tool for wealth growth projection and investment planning in Indian Currency.">
+    <meta name="keywords" content="Wealth Predictor, FINANCE, acrozela Wealth Predictor, Investment Calculator, Indian Finance Tool">
+    <title>ACROZELA WEALTH PREDICTOR</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --brand-blue: #3b82f6; 
+            --brand-dark: #1e3a8a;
+            --bg-lite: #fcfdfe;
+            --card-white: #ffffff;
+            --text-main: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-lite);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER SECTION */
+        header {
+            background: var(--card-white);
+            padding: 1.2rem 2rem;
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-text {
+            color: var(--brand-blue);
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: -0.03em;
+            text-transform: uppercase;
+        }
+
+        /* MAIN LAYOUT */
+        .app-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 2rem;
+            flex-grow: 1;
+            width: 100%;
+        }
+
+        /* INPUT PANEL */
+        .input-card {
+            background: var(--card-white);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            height: fit-content;
+        }
+
+        .input-card h2 {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .field { margin-bottom: 1.25rem; }
+
+        .field label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .input-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-group .prefix {
+            position: absolute;
+            left: 12px;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem 0.75rem 0.75rem 2.2rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--brand-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+
+        .btn-build {
+            width: 100%;
+            background: var(--brand-blue);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background 0.2s;
+        }
+
+        .btn-build:hover { background: var(--brand-dark); }
+
+        /* DASHBOARD AREA */
+        .dashboard-area {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Fully Empty Dashboard State */
+        .empty-dashboard {
+            height: 100%;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .active-dashboard {
+            display: none; /* Initially hidden */
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .stat-box small {
+            display: block;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-box span {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .wealth-table-wrap {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        table { width: 100%; border-collapse: collapse; }
+
+        th {
+            background: #f8fafc;
+            padding: 1rem;
+            font-size: 0.75rem;
+            text-align: left;
+            text-transform: uppercase;
+            color: var(--text-light);
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        .growth-chip { color: var(--success); font-weight: 700; font-size: 0.8rem; }
+
+        /* FOOTER */
+        footer {
+            background: var(--card-white);
+            border-top: 1px solid var(--border);
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 992px) {
+            .app-container { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-text">ACROZELA WEALTH PREDICTOR</div>
+    </header>
+
+    <div class="app-container">
+        <!-- Input Sidebar -->
+        <aside class="input-card">
+            <h2>Tool Builder</h2>
+            
+            <div class="field">
+                <label>Current Savings</label>
+                <div class="input-group">
+                    <span class="prefix">₹</span>
+                    <input type="number" id="currentWealth" placeholder="0">
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Monthly Contribution</label>
+                <div class="input-group">
+                    <span class="prefix">₹</span>
+                    <input type="number" id="monthlySavings" placeholder="0">
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Annual Returns (%)</label>
+                <div class="input-group">
+                    <span class="prefix">%</span>
+                    <input type="number" id="returnRate" placeholder="0" step="0.1">
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Duration (Years)</label>
+                <div class="input-group">
+                    <span class="prefix">Y</span>
+                    <input type="number" id="years" placeholder="0">
+                </div>
+            </div>
+
+            <button class="btn-build" onclick="buildWealthProjection()">BUILD PREDICTION</button>
+        </aside>
+
+        <!-- Dynamic Content Area -->
+        <main class="dashboard-area">
+            <!-- Truly Empty State (No Text) -->
+            <div id="empty-view" class="empty-dashboard"></div>
+
+            <!-- Calculated Results -->
+            <div id="active-view" class="active-dashboard">
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <small>Total Invested</small>
+                        <span id="res-invested">₹0</span>
+                    </div>
+                    <div class="stat-box">
+                        <small>Interest Earned</small>
+                        <span id="res-interest" style="color: var(--success);">₹0</span>
+                    </div>
+                    <div class="stat-box">
+                        <small>Maturity Value</small>
+                        <span id="res-total">₹0</span>
+                    </div>
+                </div>
+
+                <div class="wealth-table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>Invested</th>
+                                <th>Est. Returns</th>
+                                <th>Wealth Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-data"></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer>
+        ACROZELA WEALTH PREDICTOR TOOL BUILDER &nbsp;|&nbsp; ACROZELA TECH
+    </footer>
+
+    <script>
+        function formatCurrency(val) {
+            return new Intl.NumberFormat('en-IN', {
+                style: 'currency',
+                currency: 'INR',
+                maximumFractionDigits: 0
+            }).format(val);
+        }
+
+        function buildWealthProjection() {
+            const p = parseFloat(document.getElementById('currentWealth').value) || 0;
+            const pmt = parseFloat(document.getElementById('monthlySavings').value) || 0;
+            const r = (parseFloat(document.getElementById('returnRate').value) || 0) / 100 / 12;
+            const yearsInput = parseInt(document.getElementById('years').value) || 0;
+            const n = yearsInput * 12;
+
+            if (yearsInput <= 0) {
+                alert("Please enter a valid time period (Years).");
+                return;
+            }
+
+            let currentBalance = p;
+            let totalInvested = p;
+            let yearlySnapshots = [];
+
+            for (let i = 1; i <= n; i++) {
+                currentBalance = (currentBalance + pmt) * (1 + r);
+                totalInvested += pmt;
+                if (i % 12 === 0) {
+                    yearlySnapshots.push({
+                        year: i / 12,
+                        invested: totalInvested,
+                        total: currentBalance,
+                        interest: currentBalance - totalInvested
+                    });
+                }
+            }
+
+            document.getElementById('empty-view').style.display = 'none';
+            const activeView = document.getElementById('active-view');
+            activeView.style.display = 'block';
+
+            document.getElementById('res-invested').innerText = formatCurrency(totalInvested);
+            document.getElementById('res-interest').innerText = formatCurrency(currentBalance - totalInvested);
+            document.getElementById('res-total').innerText = formatCurrency(currentBalance);
+
+            const tbody = document.getElementById('table-data');
+            tbody.innerHTML = '';
+
+            yearlySnapshots.forEach(data => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>Year ${data.year}</strong></td>
+                    <td>${formatCurrency(data.invested)}</td>
+                    <td class="growth-chip">+${formatCurrency(data.interest)}</td>
+                    <td><strong>${formatCurrency(data.total)}</strong></td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            if(window.innerWidth < 992) {
+                activeView.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>
